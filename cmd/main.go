@@ -5,6 +5,7 @@ import (
 
 	"github.com/mohammedahmed18/music-player-rooms/internal/logger"
 	"github.com/mohammedahmed18/music-player-rooms/internal/room"
+	"github.com/mohammedahmed18/music-player-rooms/internal/router"
 	"github.com/mohammedahmed18/music-player-rooms/internal/server"
 	"github.com/rs/zerolog"
 	"github.com/rs/zerolog/log"
@@ -12,7 +13,7 @@ import (
 
 func main() {
 	logger.Init(zerolog.DebugLevel) // TODO: user env var for this
-	srv, err := server.New()
+	srv, err := server.New(router.Router())
 	if err != nil {
 		log.Fatal().Msgf("Error creating server: %v", err)
 	}
