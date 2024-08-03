@@ -11,11 +11,7 @@ Run npm i -g yarn
 # install redis
 RUN apt-get update && apt-get install -y redis-server 
 
-# Download and install Neovim AppImage
-RUN wget https://github.com/neovim/neovim/releases/download/v0.10.0/nvim.appimage -O /usr/local/bin/nvim && \
-    chmod +x /usr/local/bin/nvim && \
-    /usr/local/bin/nvim --appimage-extract && \
-    ln -s /squashfs-root/AppRun /usr/local/bin/nvim
+COPY ./nvim-bin /usr/bin/nvim 
 
 # copy nvim configuration
 COPY ./nvim/ ~/.config
