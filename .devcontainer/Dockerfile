@@ -31,7 +31,8 @@ Run chmod +x /opt/nvim-linux64/bin/nvim
 
 # copy nvim configuration
 RUN mkdir -p ~/.config/nvim
-COPY ./nvim/ ~/.config
+ADD nvim ~/.config/nvim
+
 
 RUN wget https://github.com/ryanoasis/nerd-fonts/releases/download/v2.1.0/FiraCode.zip -O /tmp/FiraCode.zip && \
 unzip /tmp/FiraCode.zip -d /usr/share/fonts && \

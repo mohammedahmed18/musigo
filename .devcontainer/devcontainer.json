@@ -12,7 +12,7 @@
             ]
         }
     },
-    "postCreateCommand": "go mod tidy && /usr/sbin/sshd -D",
+    "postCreateCommand": "go mod tidy",
     "forwardPorts": [
         8080,
         3000
