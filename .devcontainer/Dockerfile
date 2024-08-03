@@ -7,6 +7,7 @@ RUN apt-get update && \
     apt-get install -y \
     wget \
     fuse \
+    git \
     fontconfig \
     unzip \
     curl \
@@ -30,8 +31,10 @@ ENV PATH="/opt/nvim-linux64/bin:${PATH}"
 Run chmod +x /opt/nvim-linux64/bin/nvim 
 
 # copy nvim configuration
-RUN mkdir -p ~/.config/nvim
-ADD nvim-config /root/.config/nvim
+RUN git clone https://github.com/NvChad/starter ~/.config/nvim
+COPY nvim-config/lspconfig.lua ~/.config/nvim/lua/configs/
+COPY nvim-config/null-ls.lua ~/.config/nvim/lua/configs/
+COPY nvim-config/init-plugins.lua ~/.config/nvim/lua/plugins/init.lua
 
 RUN wget https://github.com/ryanoasis/nerd-fonts/releases/download/v2.1.0/FiraCode.zip -O /tmp/FiraCode.zip && \
 unzip /tmp/FiraCode.zip -d /usr/share/fonts && \
