@@ -1,2 +1,3 @@
-/bin/app
+temp/*
+!temp/.gitkeep
 .air/

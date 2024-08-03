@@ -1,48 +1,39 @@
 package main
 
 import (
-	"context"
+	"os"
 
-	"github.com/mohammedahmed18/music-player-rooms/internal/logger"
-	"github.com/mohammedahmed18/music-player-rooms/internal/room"
-	"github.com/mohammedahmed18/music-player-rooms/internal/router"
-	"github.com/mohammedahmed18/music-player-rooms/internal/server"
 	"github.com/rs/zerolog"
 	"github.com/rs/zerolog/log"
+	"github.com/spf13/viper"
+
+	"github.com/mohammedahmed18/music-player-rooms/internal/config"
+	"github.com/mohammedahmed18/music-player-rooms/internal/logger"
+	"github.com/mohammedahmed18/music-player-rooms/internal/router"
+	"github.com/mohammedahmed18/music-player-rooms/internal/server"
 )
 
 func main() {
-	logger.Init(zerolog.DebugLevel) // TODO: user env var for this
+	// initialize config file
+	config.Init("./temp", "cfg") // TODO: use env var for this
+
+	// use error level log in production
+	lvl := zerolog.ErrorLevel
+	env := viper.GetString("server.env")
+	if env == "dev" {
+		lvl = zerolog.DebugLevel
+	}
+
+	// init logger
+	logger.Init(lvl)
+
 	srv, err := server.New(router.Router())
 	if err != nil {
 		log.Fatal().Msgf("Error creating server: %v", err)
 	}
 
-	go func() {
-		err = srv.Start(":8080")
-		if err != nil {
-			log.Fatal().Msgf("Error starting server: %v", err)
-		}
-	}()
+	srvPort := viper.GetString("server.port")
 
-	r := room.New()
-	r.ServerURL = "ws://localhost:8080/ws"
-
-	ctx, closeRoom := context.WithCancel(context.Background())
-	defer closeRoom()
-	go func() {
-		r.Start(ctx)
-	}()
-
-	// r.PlayMusic("raad elkurdi")
-	// r.Join("user_1")
-	// r.Join("user_2")
-	// r.Join("user_3")
-	// r.Join("user_4")
-	// r.Join("user_4")
-	// r.PlayMusic("raad elkurdi 222")
-	// r.Shutdown()
-
-	// Prevent main from exiting
-	select {}
+	log.Error().Msg(srv.Start(":" + srvPort).Error())
+	os.Exit(1)
 }
