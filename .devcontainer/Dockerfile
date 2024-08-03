@@ -8,6 +8,14 @@ RUN curl -fsSL https://deb.nodesource.com/setup_20.x | bash - \
 # Install Redis
 RUN apt-get update && apt-get install -y redis-server
 
+
+# Install SSH server
+RUN apt-get update && \
+ apt-get install -y openssh-server
+
+ # Allow SSH access
+RUN mkdir /var/run/sshd
+
 # Set the working directory
 WORKDIR /workspace
 
