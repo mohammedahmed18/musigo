@@ -14,10 +14,16 @@
     },
     "postCreateCommand": "go mod tidy",
     "forwardPorts": [
-        8080, 3000
+        8080,
+        3000
     ],
     "mounts": [
         "source=${localWorkspaceFolder},target=/workspace,type=bind,consistency=cached"
     ],
-    "remoteUser": "root"
+    "remoteUser": "root",
+    "features": {
+        "ghcr.io/devcontainers/features/sshd:1": {
+            "version": "latest"
+        }
+    }
 }
