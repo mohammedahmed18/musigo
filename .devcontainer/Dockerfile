@@ -21,6 +21,8 @@ WORKDIR /workspace
 
 # Install necessary Go tools
 RUN go install golang.org/x/tools/gopls@latest
+RUN go install github.com/air-verse/air@latest
+
 
 # Copy the project into the container
 COPY . /workspace
