@@ -76,9 +76,15 @@ RUN sh /usr/bin/zsh-in-docker.sh -- \
     -p https://github.com/zsh-users/zsh-autosuggestions \
     -p https://github.com/zsh-users/zsh-completions
 
+# make zsh the default shell
+RUN chsh -s ~/.zshrc
+
+
 # install oh my posh
 RUN curl -s https://ohmyposh.dev/install.sh | bash -s -- -d /usr/local/bin
-RUN echo "eval \"$(oh-my-posh init zsh --config ~/.cache/oh-my-posh/themes/1_shell.omp.json)\"" >> /root/.zshrc
+
+RUN echo 'eval "$(oh-my-posh init zsh --config ~/.cache/oh-my-posh/themes/1_shell.omp.json)"' >> ~/.zshrc
+
 
 # Copy the project into the container
 COPY . /workspace
