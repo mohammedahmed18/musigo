@@ -76,9 +76,6 @@ RUN sh /usr/bin/zsh-in-docker.sh -- \
     -p https://github.com/zsh-users/zsh-autosuggestions \
     -p https://github.com/zsh-users/zsh-completions
 
-# make zsh the default shell
-RUN chsh -s ~/.zshrc
-
 
 # install oh my posh
 RUN curl -s https://ohmyposh.dev/install.sh | bash -s -- -d /usr/local/bin
