@@ -1,6 +1,6 @@
 FROM ubuntu:22.04
 
-ENV GO_VERSION=${1.22.4}
+ENV GO_VERSION=1.22.4
 
 # Install necessary dependencies
 RUN apt-get update && \
@@ -14,16 +14,13 @@ RUN apt-get update && \
     curl \
     ripgrep
 
-
+# install golang
 RUN wget -P /tmp "https://dl.google.com/go/go${GO_VERSION}.linux-amd64.tar.gz"
-
 RUN tar -C /usr/local -xzf "/tmp/go${GO_VERSION}.linux-amd64.tar.gz"
 RUN rm "/tmp/go${GO_VERSION}.linux-amd64.tar.gz"
-
 ENV GOPATH /go
 ENV PATH $GOPATH/bin:/usr/local/go/bin:$PATH
 RUN mkdir -p "$GOPATH/src" "$GOPATH/bin" && chmod -R 777 "$GOPATH"
-
 
 # Install Node.js
 RUN curl -fsSL https://deb.nodesource.com/setup_20.x | bash - \
@@ -62,6 +59,9 @@ WORKDIR /workspace
 # Install necessary Go tools
 RUN go install golang.org/x/tools/gopls@latest
 RUN go install github.com/air-verse/air@latest
+RUN go install mvdan.cc/gofumpt@latest
+RUN go install github.com/incu6us/goimports-reviser/v3@latest
+RUN go install github.com/segmentio/golines@latest
 
 
 # Copy the project into the container
