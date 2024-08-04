@@ -7,10 +7,10 @@ import (
 	"github.com/rs/zerolog/log"
 	"github.com/spf13/viper"
 
-	"github.com/mohammedahmed18/music-player-rooms/internal/config"
-	"github.com/mohammedahmed18/music-player-rooms/internal/logger"
-	"github.com/mohammedahmed18/music-player-rooms/internal/router"
-	"github.com/mohammedahmed18/music-player-rooms/internal/server"
+	"github.com/mohammedahmed18/musigo/internal/config"
+	"github.com/mohammedahmed18/musigo/internal/logger"
+	"github.com/mohammedahmed18/musigo/internal/router"
+	"github.com/mohammedahmed18/musigo/internal/server"
 )
 
 func main() {

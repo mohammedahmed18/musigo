@@ -1,4 +1,4 @@
-module github.com/mohammedahmed18/music-player-rooms
+module github.com/mohammedahmed18/musigo
 
 go 1.22.4
 

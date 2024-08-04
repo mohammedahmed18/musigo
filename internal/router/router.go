@@ -5,14 +5,14 @@ import (
 	"time"
 
 	"github.com/gorilla/mux"
-	"github.com/mohammedahmed18/music-player-rooms/frontend"
-	"github.com/mohammedahmed18/music-player-rooms/internal/ws"
 	"github.com/rs/zerolog/hlog"
 	"github.com/rs/zerolog/log"
+
+	"github.com/mohammedahmed18/musigo/frontend"
+	"github.com/mohammedahmed18/musigo/internal/ws"
 )
 
 func Router() *mux.Router {
-
 	router := mux.NewRouter()
 	router.Use(hlog.AccessHandler(accessLogger))
 
