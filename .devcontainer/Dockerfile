@@ -64,5 +64,21 @@ RUN go install github.com/incu6us/goimports-reviser/v3@latest
 RUN go install github.com/segmentio/golines@latest
 
 
+# install oh-my-zsh
+COPY zsh-in-docker.sh /usr/bin
+RUN chmod +x /usr/bin/zsh-in-docker.sh
+RUN sh /usr/bin/zsh-in-docker.sh -- \
+    -t https://github.com/denysdovhan/spaceship-prompt \
+    -a 'SPACESHIP_PROMPT_ADD_NEWLINE="false"' \
+    -a 'SPACESHIP_PROMPT_SEPARATE_LINE="false"' \
+    -p git \
+    -p ssh-agent \
+    -p https://github.com/zsh-users/zsh-autosuggestions \
+    -p https://github.com/zsh-users/zsh-completions
+
+# install oh my posh
+RUN curl -s https://ohmyposh.dev/install.sh | bash -s
+RUN echo "eval \"$(oh-my-posh init zsh --config ~/.cache/oh-my-posh/themes/1_shell.omp.json)\"" >> /root/.zshrc
+
 # Copy the project into the container
 COPY . /workspace
