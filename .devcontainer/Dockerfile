@@ -1,6 +1,6 @@
-# Use the official golang image as the base image
-FROM golang:1.22.4
+FROM ubuntu:22.04
 
+ENV GO_VERSION=${1.22.4}
 
 # Install necessary dependencies
 RUN apt-get update && \
@@ -8,10 +8,22 @@ RUN apt-get update && \
     wget \
     fuse \
     git \
+    gcc \
     fontconfig \
     unzip \
     curl \
     ripgrep
+
+
+RUN wget -P /tmp "https://dl.google.com/go/go${GO_VERSION}.linux-amd64.tar.gz"
+
+RUN tar -C /usr/local -xzf "/tmp/go${GO_VERSION}.linux-amd64.tar.gz"
+RUN rm "/tmp/go${GO_VERSION}.linux-amd64.tar.gz"
+
+ENV GOPATH /go
+ENV PATH $GOPATH/bin:/usr/local/go/bin:$PATH
+RUN mkdir -p "$GOPATH/src" "$GOPATH/bin" && chmod -R 777 "$GOPATH"
+
 
 # Install Node.js
 RUN curl -fsSL https://deb.nodesource.com/setup_20.x | bash - \
@@ -32,9 +44,10 @@ Run chmod +x /opt/nvim-linux64/bin/nvim
 
 # copy nvim configuration
 RUN git clone https://github.com/NvChad/starter ~/.config/nvim
-COPY nvim-config/lspconfig.lua ~/.config/nvim/lua/configs/
-COPY nvim-config/null-ls.lua ~/.config/nvim/lua/configs/
-COPY nvim-config/init-plugins.lua ~/.config/nvim/lua/plugins/init.lua
+
+COPY nvim-config/lspconfig.lua /root/.config/nvim/lua/configs
+COPY nvim-config/null-ls.lua /root/.config/nvim/lua/configs
+COPY nvim-config/init-plugins.lua /root/.config/nvim/lua/plugins/init.lua
 
 RUN wget https://github.com/ryanoasis/nerd-fonts/releases/download/v2.1.0/FiraCode.zip -O /tmp/FiraCode.zip && \
 unzip /tmp/FiraCode.zip -d /usr/share/fonts && \
